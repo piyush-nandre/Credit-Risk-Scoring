@@ -66,7 +66,6 @@ README.md
 
 ## Run Locally
 
-```text
 pip install -r requirements.txt
 streamlit run app.py
 
@@ -74,7 +73,6 @@ streamlit run app.py
 
 ## Web Deployment
 
-```text
 Hosted using Streamlit Community Cloud.
 
 ---
@@ -82,7 +80,6 @@ Hosted using Streamlit Community Cloud.
 
 ##  Input Features (Demo App)
 
-```text
 Loan Amount
 Annual Income
 Credit Score
@@ -91,7 +88,6 @@ Credit Score
 
 ## Output
 
-```text
 Default Probability
 Risk Category
 Learning Outcomes
@@ -105,6 +101,5 @@ Web App Deployment
 
 ## Author
 
-```text
 Piyush Nandre
 Completed as part of a FinTech Analytics project series.
