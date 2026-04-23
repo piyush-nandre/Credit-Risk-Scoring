@@ -64,7 +64,7 @@ README.md
 
 ---
 
-**## Run Locally**
+## Run Locally
 
 ```text
 pip install -r requirements.txt
@@ -72,7 +72,7 @@ streamlit run app.py
 
 ---
 
-**## Web Deployment**
+## Web Deployment
 
 ```text
 Hosted using Streamlit Community Cloud.
@@ -80,7 +80,7 @@ Hosted using Streamlit Community Cloud.
 ---
 
 
-**##  Input Features (Demo App)**
+##  Input Features (Demo App)
 
 ```text
 Loan Amount
@@ -89,7 +89,7 @@ Credit Score
 
 ---
 
-**## Output**
+## Output
 
 ```text
 Default Probability
@@ -103,7 +103,7 @@ Web App Deployment
 
 ---
 
-**## Author**
+## Author
 
 ```text
 Piyush Nandre
