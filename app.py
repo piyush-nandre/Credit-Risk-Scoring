@@ -16,17 +16,40 @@ st.set_page_config(
 # --------------------------------------------------
 st.markdown("""
 <style>
+
+/* Hide Streamlit Header / Toolbar / Menu */
+header {
+    visibility: hidden;
+    height: 0rem;
+}
+
+[data-testid="stHeader"] {
+    display: none;
+}
+
+[data-testid="stToolbar"] {
+    display: none;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+/* Remove top empty space */
+.block-container {
+    padding-top: 0.8rem;
+    padding-bottom: 0.5rem;
+    max-width: 900px;
+}
+
 /* Main Background */
 .stApp {
     background: linear-gradient(135deg, #f8fafc, #eef2ff);
     color: #111827;
-}
-
-/* Remove top padding */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 0.5rem;
-    max-width: 900px;
 }
 
 /* Card Style */
@@ -77,7 +100,7 @@ st.markdown("""
     background: linear-gradient(90deg, #1d4ed8, #4338ca);
 }
 
-/* Input Labels */
+/* Labels */
 label {
     font-weight: 600 !important;
 }
@@ -89,6 +112,7 @@ label {
     font-size:0.9rem;
     margin-top:1.5rem;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
