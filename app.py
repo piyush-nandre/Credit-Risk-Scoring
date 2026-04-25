@@ -12,105 +12,92 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# CUSTOM CSS
+# CLEAN PROFESSIONAL UI CSS
 # --------------------------------------------------
 st.markdown("""
 <style>
 
-/* Hide Streamlit Header / Toolbar / Menu */
-header {
+/* Hide Streamlit default chrome */
+header, footer, #MainMenu {
     visibility: hidden;
-    height: 0rem;
 }
 
-[data-testid="stHeader"] {
-    display: none;
-}
-
+[data-testid="stHeader"],
 [data-testid="stToolbar"] {
     display: none;
 }
 
-#MainMenu {
-    visibility: hidden;
-}
-
-footer {
-    visibility: hidden;
-}
-
-/* Remove top empty space */
-.block-container {
-    padding-top: 0.8rem;
-    padding-bottom: 0.5rem;
-    max-width: 900px;
-}
-
-/* Main Background */
+/* App Background */
 .stApp {
     background: linear-gradient(135deg, #f8fafc, #eef2ff);
-    color: #111827;
 }
 
-/* Card Style */
-.main-card {
+/* Main card container (native Streamlit area) */
+.block-container {
+    max-width: 950px;
+    margin-top: 1.2rem;
+    padding: 2.2rem 2.2rem 1.2rem 2.2rem;
     background: white;
-    padding: 2rem;
-    border-radius: 22px;
+    border-radius: 24px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     border: 1px solid #e5e7eb;
 }
 
-/* Heading */
-.title {
-    font-size: 2.2rem;
-    font-weight: 700;
+/* Headings */
+h1 {
     color: #111827;
-    margin-bottom: 0.2rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
 }
 
-.subtitle {
+.subtext {
     color: #6b7280;
-    margin-bottom: 1.8rem;
     font-size: 1rem;
+    margin-bottom: 1.6rem;
 }
 
-/* Metric Card */
-.result-box {
-    background: #f9fafb;
-    border-radius: 18px;
-    padding: 1.2rem;
-    border: 1px solid #e5e7eb;
-    margin-top: 1rem;
+/* Labels */
+label {
+    font-weight: 600 !important;
+    color: #111827 !important;
 }
 
-/* Buttons */
+/* Inputs */
+.stNumberInput input {
+    border-radius: 12px !important;
+}
+
+/* Button */
 .stButton > button {
     width: 100%;
     background: linear-gradient(90deg, #2563eb, #4f46e5);
     color: white;
     border: none;
-    padding: 0.75rem;
+    padding: 0.8rem;
     border-radius: 12px;
-    font-weight: 600;
     font-size: 1rem;
+    font-weight: 700;
 }
 
 .stButton > button:hover {
     background: linear-gradient(90deg, #1d4ed8, #4338ca);
 }
 
-/* Labels */
-label {
-    font-weight: 600 !important;
+/* Result card */
+.result-card {
+    margin-top: 1rem;
+    padding: 1.2rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
 }
 
 /* Footer */
 .footer {
-    text-align:center;
-    color:#6b7280;
-    font-size:0.9rem;
-    margin-top:1.5rem;
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.92rem;
+    margin-top: 2rem;
 }
 
 </style>
@@ -126,11 +113,9 @@ feature_names = scaler.feature_names_in_
 # --------------------------------------------------
 # HEADER
 # --------------------------------------------------
-st.markdown('<div class="main-card">', unsafe_allow_html=True)
-
-st.markdown('<div class="title">💳 Credit Risk Scoring System</div>', unsafe_allow_html=True)
+st.title("💳 Credit Risk Scoring System")
 st.markdown(
-    '<div class="subtitle">Modern AI-powered loan default prediction dashboard built with XGBoost.</div>',
+    '<div class="subtext">Modern AI-powered loan default prediction dashboard built with XGBoost.</div>',
     unsafe_allow_html=True
 )
 
@@ -140,15 +125,23 @@ st.markdown(
 col1, col2 = st.columns(2)
 
 with col1:
-    loan_amnt = st.number_input("Loan Amount (₹)", min_value=0.0, value=100000.0, step=5000.0)
-    fico = st.number_input("Credit Score", min_value=300.0, max_value=900.0, value=720.0)
+    loan_amnt = st.number_input(
+        "Loan Amount (₹)", min_value=0.0, value=100000.0, step=5000.0
+    )
+    fico = st.number_input(
+        "Credit Score", min_value=300.0, max_value=900.0, value=720.0
+    )
 
 with col2:
-    annual_inc = st.number_input("Annual Income (₹)", min_value=0.0, value=600000.0, step=10000.0)
-    dti = st.number_input("Debt-to-Income Ratio", min_value=0.0, value=15.0, step=0.5)
+    annual_inc = st.number_input(
+        "Annual Income (₹)", min_value=0.0, value=600000.0, step=10000.0
+    )
+    dti = st.number_input(
+        "Debt-to-Income Ratio", min_value=0.0, value=15.0, step=0.5
+    )
 
 # --------------------------------------------------
-# PREDICT
+# PREDICT BUTTON
 # --------------------------------------------------
 if st.button("🔍 Predict Risk"):
 
@@ -167,10 +160,9 @@ if st.button("🔍 Predict Risk"):
         input_dict["dti"] = dti
 
     input_data = pd.DataFrame([input_dict])[feature_names]
-
     input_scaled = scaler.transform(input_data)
 
-    prob = model.predict_proba(input_scaled)[:,1][0]
+    prob = model.predict_proba(input_scaled)[:, 1][0]
 
     if prob < 0.30:
         band = "🟢 Low Risk"
@@ -179,9 +171,10 @@ if st.button("🔍 Predict Risk"):
     else:
         band = "🔴 High Risk"
 
-    st.markdown('<div class="result-box">', unsafe_allow_html=True)
+    st.markdown('<div class="result-card">', unsafe_allow_html=True)
     st.metric("Default Probability", f"{prob:.2%}")
-    st.write("### Risk Category:", band)
+    st.markdown(f"### {band}")
+    st.caption("Predicted Risk Category")
     st.markdown('</div>', unsafe_allow_html=True)
 
 # --------------------------------------------------
@@ -191,5 +184,3 @@ st.markdown(
     '<div class="footer">Built with Python • XGBoost • Streamlit</div>',
     unsafe_allow_html=True
 )
-
-st.markdown('</div>', unsafe_allow_html=True)
