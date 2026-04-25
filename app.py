@@ -179,11 +179,11 @@ if st.button("🔍 Predict Risk"):
         band = "🔴 High Risk"
 
     # Output Card
-    st.markdown('<div class="result-card">', unsafe_allow_html=True)
-    st.metric("Default Probability", f"{prob:.2%}")
-    st.markdown(f"### {band}")
-    st.caption("Predicted Risk Category")
-    st.markdown('</div>', unsafe_allow_html=True)
+    
+    with st.container():
+        st.metric("Default Probability", f"{prob:.2%}")
+        st.markdown(f"### {band}")
+        st.caption("Predicted Risk Category")
 
     # --------------------------------------------------
     # SHAP EXPLANATION
