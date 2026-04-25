@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import shap
+import matplotlib.pyplot as plt
+import numpy as np
 
 # --------------------------------------------------
 # PAGE CONFIG
@@ -17,7 +20,7 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* Hide Streamlit default chrome */
+/* Hide Streamlit chrome */
 header, footer, #MainMenu {
     visibility: hidden;
 }
@@ -27,12 +30,12 @@ header, footer, #MainMenu {
     display: none;
 }
 
-/* App Background */
+/* Background */
 .stApp {
     background: linear-gradient(135deg, #f8fafc, #eef2ff);
 }
 
-/* Main card container (native Streamlit area) */
+/* Main container */
 .block-container {
     max-width: 950px;
     margin-top: 1.2rem;
@@ -83,7 +86,7 @@ label {
     background: linear-gradient(90deg, #1d4ed8, #4338ca);
 }
 
-/* Result card */
+/* Cards */
 .result-card {
     margin-top: 1rem;
     padding: 1.2rem;
@@ -109,6 +112,9 @@ label {
 model = joblib.load("credit_risk_model.pkl")
 scaler = joblib.load("scaler.pkl")
 feature_names = scaler.feature_names_in_
+
+# SHAP Explainer
+explainer = shap.TreeExplainer(model)
 
 # --------------------------------------------------
 # HEADER
@@ -162,6 +168,7 @@ if st.button("🔍 Predict Risk"):
     input_data = pd.DataFrame([input_dict])[feature_names]
     input_scaled = scaler.transform(input_data)
 
+    # Prediction
     prob = model.predict_proba(input_scaled)[:, 1][0]
 
     if prob < 0.30:
@@ -171,16 +178,50 @@ if st.button("🔍 Predict Risk"):
     else:
         band = "🔴 High Risk"
 
+    # Output Card
     st.markdown('<div class="result-card">', unsafe_allow_html=True)
     st.metric("Default Probability", f"{prob:.2%}")
     st.markdown(f"### {band}")
     st.caption("Predicted Risk Category")
     st.markdown('</div>', unsafe_allow_html=True)
 
+    # --------------------------------------------------
+    # SHAP EXPLANATION
+    # --------------------------------------------------
+    st.markdown("## 📊 Why This Prediction Happened")
+
+    shap_values = explainer.shap_values(input_scaled)
+
+    vals = shap_values[0]
+
+    impact_df = pd.DataFrame({
+        "Feature": feature_names,
+        "Impact": vals
+    })
+
+    impact_df["AbsImpact"] = impact_df["Impact"].abs()
+    impact_df = impact_df.sort_values("AbsImpact", ascending=False).head(8)
+
+    # Text Explanation
+    for _, row in impact_df.iterrows():
+        direction = "⬆️ Increased Risk" if row["Impact"] > 0 else "⬇️ Reduced Risk"
+        st.write(f"**{row['Feature']}** : {direction}")
+
+    # Chart
+    fig, ax = plt.subplots(figsize=(8,4))
+
+    colors = ["red" if x > 0 else "green" for x in impact_df["Impact"]]
+
+    ax.barh(impact_df["Feature"], impact_df["Impact"], color=colors)
+    ax.invert_yaxis()
+    ax.set_title("Top Factors Affecting Prediction")
+
+    st.pyplot(fig)
+
 # --------------------------------------------------
 # FOOTER
 # --------------------------------------------------
 st.markdown(
-    '<div class="footer">Built with Python • XGBoost • Streamlit</div>',
+    '<div class="footer">Built with Python • XGBoost • Streamlit • SHAP AI</div>',
     unsafe_allow_html=True
 )
