@@ -126,7 +126,7 @@ st.markdown(
 )
 
 # --------------------------------------------------
-# INPUTS
+# INPUTS (UPGRADED 10 FEATURES)
 # --------------------------------------------------
 col1, col2 = st.columns(2)
 
@@ -134,18 +134,45 @@ with col1:
     loan_amnt = st.number_input(
         "Loan Amount (₹)", min_value=0.0, value=100000.0, step=5000.0
     )
+
     fico = st.number_input(
         "Credit Score", min_value=300.0, max_value=900.0, value=720.0
+    )
+
+    int_rate = st.number_input(
+        "Interest Rate (%)", min_value=0.0, value=12.0, step=0.1
+    )
+
+    open_acc = st.number_input(
+        "Open Credit Accounts", min_value=0, value=5, step=1
+    )
+
+    emp_length = st.selectbox(
+        "Employment Length",
+        ["<1 year", "1 year", "2 years", "3 years", "5 years", "7 years", "10+ years"]
     )
 
 with col2:
     annual_inc = st.number_input(
         "Annual Income (₹)", min_value=0.0, value=600000.0, step=10000.0
     )
+
     dti = st.number_input(
         "Debt-to-Income Ratio", min_value=0.0, value=15.0, step=0.5
     )
 
+    revol_util = st.number_input(
+        "Credit Utilization (%)", min_value=0.0, value=30.0, step=1.0
+    )
+
+    inq_last_6mths = st.number_input(
+        "Recent Inquiries (6 Months)", min_value=0, value=1, step=1
+    )
+
+    home_ownership = st.selectbox(
+        "Home Ownership",
+        ["RENT", "OWN", "MORTGAGE"]
+    )
 # --------------------------------------------------
 # PREDICT BUTTON
 # --------------------------------------------------
@@ -164,6 +191,24 @@ if st.button("🔍 Predict Risk"):
 
     if "dti" in input_dict:
         input_dict["dti"] = dti
+
+    if "int_rate" in input_dict:
+        input_dict["int_rate"] = int_rate
+
+    if "open_acc" in input_dict:
+        input_dict["open_acc"] = open_acc
+
+    if "revol_util" in input_dict:
+        input_dict["revol_util"] = revol_util
+
+    if "inq_last_6mths" in input_dict:
+        input_dict["inq_last_6mths"] = inq_last_6mths
+
+    if "emp_length" in input_dict:
+        input_dict["emp_length"] = emp_length
+
+    if "home_ownership" in input_dict:
+        input_dict["home_ownership"] = home_ownership
 
     input_data = pd.DataFrame([input_dict])[feature_names]
     input_scaled = scaler.transform(input_data)
