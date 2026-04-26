@@ -147,10 +147,7 @@ with col1:
         "Open Credit Accounts", min_value=0, value=5, step=1
     )
 
-    emp_length = st.selectbox(
-        "Employment Length",
-        ["<1 year", "1 year", "2 years", "3 years", "5 years", "7 years", "10+ years"]
-    )
+    delinq_2yrs = st.number_input("Delinquencies (2 Years)", min_value=0, value=0)
 
 with col2:
     annual_inc = st.number_input(
@@ -169,10 +166,8 @@ with col2:
         "Recent Inquiries (6 Months)", min_value=0, value=1, step=1
     )
 
-    home_ownership = st.selectbox(
-        "Home Ownership",
-        ["RENT", "OWN", "MORTGAGE"]
-    )
+    total_acc = st.number_input("Total Credit Accounts", min_value=0, value=10)
+
 # --------------------------------------------------
 # PREDICT BUTTON
 # --------------------------------------------------
@@ -204,11 +199,11 @@ if st.button("🔍 Predict Risk"):
     if "inq_last_6mths" in input_dict:
         input_dict["inq_last_6mths"] = inq_last_6mths
 
-    if "emp_length" in input_dict:
-        input_dict["emp_length"] = emp_length
+    if "total_acc" in input_dict:
+        input_dict["total_acc"] = total_acc
 
-    if "home_ownership" in input_dict:
-        input_dict["home_ownership"] = home_ownership
+    if "delinq_2yrs" in input_dict:
+        input_dict["delinq_2yrs"] = delinq_2yrs
 
     input_data = pd.DataFrame([input_dict])[feature_names]
     input_scaled = scaler.transform(input_data)
