@@ -1,105 +1,84 @@
-# Credit-Risk-Scoring
+# 💳 Credit Risk Scoring System (V4)
 
+An AI-powered credit risk assessment web application that predicts the probability of loan default using Machine Learning and Explainable AI.
 
-## Overview
-
-This project is a Machine Learning based Credit Risk Scoring application that predicts the probability of loan default using historical lending data.
-
-The solution compares multiple classification models and deploys the best-performing model through a Streamlit web application.
+Built using Python, Streamlit, XGBoost, and SHAP.
 
 ---
 
-## Features
+## 📌 Project Overview
 
-✅ Loan default probability prediction  
-✅ Risk categorization (Low / Medium / High)  
-✅ Model comparison (3 ML models)  
-✅ Explainable AI using SHAP  
-✅ Streamlit web app deployment  
-✅ Lightweight production-ready model
+Financial institutions need accurate risk evaluation before approving loans. This project predicts whether an applicant is likely to default based on financial and credit-related attributes.
 
----
+The system helps simulate real-world underwriting decisions by classifying applicants into:
 
-## Models Used
-
-1. Logistic Regression  
-2. Decision Tree  
-3. XGBoost (Best Model Selected)
+- 🟢 Low Risk
+- 🟠 Medium Risk
+- 🔴 High Risk
 
 ---
 
-## Final Model Performance
+## 🚀 Version 4 Improvements
 
-| Model | ROC-AUC |
-|------|--------|
-| Logistic Regression | 0.9677 |
-| Decision Tree | 0.9613 |
-| XGBoost | 0.9835 |
+Compared to previous versions, V4 includes:
 
-XGBoost was selected as the final deployed model.
-
----
-
-## Tech Stack
-
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- XGBoost
-- SHAP
-- Joblib
-- Streamlit
+- Improved feature engineering
+- Cleaner preprocessing pipeline
+- End-to-end Scikit-learn Pipeline
+- XGBoost classifier
+- Better generalization
+- SHAP Explainability
+- Compare Applicants feature
+- Professional Streamlit dashboard
 
 ---
 
-## Project Files
+## 🧠 Model Details
+
+**Algorithm Used:** XGBoost Classifier  
+**Pipeline Used:** Preprocessing + Modeling in one pipeline
+
+### Key Features Used
+
+- Loan Amount
+- Annual Income
+- Credit Score
+- Debt-to-Income Ratio
+- Interest Rate
+- Open Accounts
+- Total Accounts
+- Credit Utilization
+- Delinquencies
+- Public Records
+- Employment Length
+- Home Ownership
+- Loan Purpose
+
+---
+
+## 📊 Performance
+
+Version 4 focused on honest, non-leakage modeling and realistic risk prediction.
+
+**Best Metric:** ROC-AUC ~0.74 (realistic production-style evaluation)
+
+---
+
+## 🖥️ Application Features
+
+- Predict Default Probability
+- Risk Category Classification
+- Loan Approval Recommendation
+- Compare Two Applicants
+- Premium Dashboard UI
+- Explainable AI Insights (SHAP)
+
+---
+
+## 📂 Project Files
 
 ```text
 app.py
-credit_risk_model.pkl
-scaler.pkl
+credit_risk_pipeline_v4.pkl
 requirements.txt
 README.md
-
----
-
-## Run Locally
-
-pip install -r requirements.txt
-streamlit run app.py
-
----
-
-## Web Deployment
-
-Hosted using Streamlit Community Cloud.
-
----
-
-
-##  Input Features (Demo App)
-
-Loan Amount
-Annual Income
-Credit Score
-
----
-
-## Output
-
-Default Probability
-Risk Category
-Learning Outcomes
-Credit Risk Analytics
-FinTech Machine Learning
-Model Evaluation
-Explainable AI
-Web App Deployment
-
----
-
-## Author
-
-Piyush Nandre
-Completed as part of a FinTech Analytics project series.
