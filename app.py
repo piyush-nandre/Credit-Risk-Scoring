@@ -10,7 +10,7 @@ from io import BytesIO
 # PAGE CONFIG
 # ==========================================================
 st.set_page_config(
-    page_title="Credit Risk Scoring Pro",
+    page_title="Credit Risk Scoring",
     page_icon="💳",
     layout="wide"
 )
@@ -37,8 +37,13 @@ background: linear-gradient(135deg,#f8fafc,#eef2ff);
 }
 
 .block-container{
-padding-top:1rem;
+padding-top:0.2rem;
+padding-bottom:1rem;
 max-width:1400px;
+}
+
+[data-testid="stVerticalBlock"]{
+gap:0.6rem;
 }
 
 .main-card{
@@ -89,16 +94,16 @@ color:#111827;
 # HELPERS
 # ==========================================================
 def risk_band(prob):
-    if prob < 0.30:
+    if prob < 0.15:
         return "🟢 Low Risk"
-    elif prob < 0.60:
+    elif prob < 0.40:
         return "🟠 Medium Risk"
     return "🔴 High Risk"
 
 def approval(prob):
-    if prob < 0.30:
+    if prob < 0.15:
         return "✅ Recommended for Approval"
-    elif prob < 0.60:
+    elif prob < 0.40:
         return "⚠️ Conditional Approval / Review Needed"
     return "❌ High Risk - Manual Review Required"
 
@@ -119,7 +124,7 @@ def build_input(
     home_ownership,
     verification_status,
     emp_length,
-    addr_state
+    
 ):
     return pd.DataFrame([{
         "loan_amnt": loan_amnt,
@@ -142,7 +147,6 @@ def build_input(
         "delinq_2yrs": delinq_2yrs,
         "pub_rec": pub_rec,
         "purpose": purpose,
-        "addr_state": addr_state,
         "fico_mean": (fico + fico + 5)/2,
         "loan_income_ratio": loan_amnt/(annual_inc+1),
         "installment_income_ratio": (loan_amnt/36)/(annual_inc+1),
@@ -152,9 +156,8 @@ def build_input(
 # ==========================================================
 # HEADER
 # ==========================================================
-st.markdown('<div class="main-card">', unsafe_allow_html=True)
 
-st.title("💳 Credit Risk Scoring Pro")
+st.title("💳 Credit Risk Scoring")
 st.markdown(
     '<div class="small">AI-powered loan default prediction with Explainable AI, comparison engine and downloadable report.</div>',
     unsafe_allow_html=True
@@ -202,7 +205,7 @@ with tabs[0]:
         home_ownership = st.selectbox("Home Ownership", ["RENT","MORTGAGE","OWN"])
         verification_status = st.selectbox("Verification", ["Verified","Source Verified","Not Verified"])
         emp_length = st.selectbox("Employment Length", ["10+ years","5 years","2 years","< 1 year"])
-        addr_state = st.selectbox("State", ["CA","TX","NY","FL","IL","OH","PA"])
+        
 
     if st.button("🔍 Predict Risk"):
 
@@ -210,7 +213,7 @@ with tabs[0]:
             loan_amnt, annual_inc, fico, dti, int_rate, term,
             open_acc, total_acc, revol_util, inq_last_6mths,
             delinq_2yrs, pub_rec, purpose, home_ownership,
-            verification_status, emp_length, addr_state
+            verification_status, emp_length
         )
 
         prob = model.predict_proba(X)[:,1][0]
@@ -313,12 +316,12 @@ with tabs[1]:
 
         X1 = build_input(
             loan1,600000,fico1,15,12,"36 months",5,10,30,1,0,0,
-            "credit_card","RENT","Verified","5 years","CA"
+            "credit_card","RENT","Verified","5 years",
         )
 
         X2 = build_input(
             loan2,600000,fico2,15,12,"36 months",5,10,30,1,0,0,
-            "credit_card","RENT","Verified","5 years","CA"
+            "credit_card","RENT","Verified","5 years",
         )
 
         p1 = model.predict_proba(X1)[:,1][0]
@@ -360,5 +363,3 @@ with tabs[2]:
 
     **Explainable AI:** SHAP-based factor analysis.
     """)
-
-st.markdown('</div>', unsafe_allow_html=True)
