@@ -82,16 +82,4 @@ app.py
 credit_risk_pipeline_v4.pkl
 requirements.txt
 README.md
-
----
-
-## Output
-
-<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/df8566df-409c-4f09-b7c9-1a6e649ecd93" />
-<img width="1920" height="706" alt="2" src="https://github.com/user-attachments/assets/56fd7410-0a78-46c8-b743-bb09f2681192" />
-<img width="1920" height="748" alt="3" src="https://github.com/user-attachments/assets/cf38a95e-1a59-42b3-a7cf-7ac526b1cc13" />
-<img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/c67541bc-d225-4ab5-8919-e94c564264d3" />
-
----
-
-
+Report
