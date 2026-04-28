@@ -1,4 +1,4 @@
-# 💳 Credit Risk Scoring System (V4)
+# 💳 Credit Risk Scoring System
 
 An AI-powered credit risk assessment web application that predicts the probability of loan default using Machine Learning and Explainable AI.
 
