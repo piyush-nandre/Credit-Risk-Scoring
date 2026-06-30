@@ -6,3 +6,4 @@ xgboost
 joblib
 shap
 matplotlib
+pickle
